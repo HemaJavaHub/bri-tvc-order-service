@@ -42,12 +42,12 @@ public class OrderController {
     @GetMapping("/order")
     public String processOrder(@RequestBody Order orderDetails){
         Email email= orderService.processOrder(orderDetails);
-
+        System.out.println(emailservice);
         Application application = eurekaClient.getApplication(emailservice);
         System.out.println("APPLICATION SIZE: " + application.size());
         InstanceInfo instanceInfo = application.getInstances().get(0);
-        String url = "http://" + instanceInfo.getIPAddr() + ":" + instanceInfo.getPort() + "/" + "/email/sendEmail";
-        System.out.println("URL" + url);
+        String url = "http://" + instanceInfo.getIPAddr() + ":" + instanceInfo.getPort() + "/email/sendEmail";
+        System.out.println("URL " + url);
 
         Map<String, Email> params = new HashMap<String, Email>();
         params.put("email", email);
