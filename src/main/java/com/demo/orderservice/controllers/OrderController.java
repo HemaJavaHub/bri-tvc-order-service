@@ -41,7 +41,7 @@ public class OrderController {
     @Value("${service.application.serviceId}")
     private String emailservice;
 
-    @GetMapping("/order")
+    @GetMapping("/order/processorder")
     public String processOrder(@RequestBody Order orderDetails) throws JSONException {
         Email email= orderService.processOrder(orderDetails);
         System.out.println(emailservice);
@@ -63,7 +63,7 @@ public class OrderController {
         return emailResponse.getBody();
     }
 
-    @GetMapping("/ordertest")
+    @GetMapping("/order/ordertest")
     public String test(){
         return "request received";
     }

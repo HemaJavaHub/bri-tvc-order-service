@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-@EnableFeignClients("com.email.orderservice")
+@EnableFeignClients("com.demo.orderservice")
 @EnableDiscoveryClient
 public class OrderServiceApplication {
 
