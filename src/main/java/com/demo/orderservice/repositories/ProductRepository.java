@@ -1,15 +1,12 @@
 package com.demo.productservice.repositories;
 
-import com.demo.orderservice.models.Product;
+import com.demo.orderservice.models.ProductForOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface ProductRepository extends JpaRepository<Product,Integer> {
+public interface ProductRepository extends JpaRepository<ProductForOrder,Integer> {
 
     @Modifying
     @Query(value = "update product p set p.count = p.count-1 where p.id = id", nativeQuery = true)

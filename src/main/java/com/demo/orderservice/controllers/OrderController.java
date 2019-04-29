@@ -5,8 +5,10 @@ import com.demo.orderservice.models.Order;
 import com.demo.orderservice.service.OrderService;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.shared.Application;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -40,7 +42,7 @@ public class OrderController {
     private String emailservice;
 
     @GetMapping("/order")
-    public String processOrder(@RequestBody Order orderDetails){
+    public String processOrder(@RequestBody Order orderDetails) throws JSONException {
         Email email= orderService.processOrder(orderDetails);
         System.out.println(emailservice);
         Application application = eurekaClient.getApplication(emailservice);
@@ -48,16 +50,17 @@ public class OrderController {
         InstanceInfo instanceInfo = application.getInstances().get(0);
         String url = "http://" + instanceInfo.getIPAddr() + ":" + instanceInfo.getPort() + "/email/sendEmail";
         System.out.println("URL " + url);
-
-        Map<String, Email> params = new HashMap<String, Email>();
-        params.put("email", email);
-
-
-        ResponseEntity<String> response =restTemplate.postForEntity(url, params,String.class);
-
-        System.out.println("RESPONSE " + response.getBody());
-
-        return response.getBody();
+        //create a request body
+        JSONObject request=new JSONObject();
+        request.put("emailAddress",email.getEmailAddress());
+        request.put("subject",email.getSubject());
+        request.put("content",email.getContent());
+        //set headers
+        HttpHeaders headers=new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity=new HttpEntity<String>(request.toString(),headers);
+        ResponseEntity<String> emailResponse =restTemplate.exchange(url, HttpMethod.POST,entity,String.class);
+        return emailResponse.getBody();
     }
 
     @GetMapping("/ordertest")

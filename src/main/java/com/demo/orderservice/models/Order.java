@@ -2,11 +2,8 @@ package com.demo.orderservice.models;
 
 
 
-import javax.persistence.*;
-
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 
 public class Order {
@@ -16,7 +13,7 @@ public class Order {
     String orderNumber;
     String username;
     String email;
-    List<Product> items;
+    List<ProductForOrder> items;
     double total;
     String address;
     LocalDate date;
@@ -25,7 +22,7 @@ public class Order {
 
     }
 
-    public Order( String username, String email, List<Product> items, double total, String address) {
+    public Order(String username, String email, List<ProductForOrder> items, double total, String address) {
         this.username = username;
         this.email = email;
         this.items = items;
@@ -74,11 +71,11 @@ public class Order {
         this.email = email;
     }
 
-    public List<Product> getItems() {
+    public List<ProductForOrder> getItems() {
         return items;
     }
 
-    public void setItems(List<Product> items) {
+    public void setItems(List<ProductForOrder> items) {
         this.items = items;
     }
 
@@ -101,9 +98,9 @@ public class Order {
 
     @Override
     public String toString() {
-        String itemDetailsHeader = "Item\tPrice\tSize\n";
+        String itemDetailsHeader = "Item\tSize\tqty\tPrice\n";
         String itemDetails = "";
-        for(Product item: items){
+        for(ProductForOrder item: items){
             itemDetails += item.toString() + "\n";
         }
 
