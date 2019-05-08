@@ -41,8 +41,9 @@ public class OrderController {
     @Value("${service.application.serviceId}")
     private String emailservice;
 
-    @GetMapping("/order/processorder")
-    public String processOrder(@RequestBody Order orderDetails) throws JSONException {
+    @CrossOrigin("*")
+    @PostMapping("/order/processorder")
+    public Order processOrder(@RequestBody Order orderDetails) throws JSONException {
         Email email= orderService.processOrder(orderDetails);
         System.out.println(emailservice);
         Application application = eurekaClient.getApplication(emailservice);
@@ -51,7 +52,7 @@ public class OrderController {
         String url = "http://" + instanceInfo.getIPAddr() + ":" + instanceInfo.getPort() + "/email/sendEmail";
         System.out.println("URL " + url);
         //create a request body
-        JSONObject request=new JSONObject();
+        /*JSONObject request=new JSONObject();
         request.put("emailAddress",email.getEmailAddress());
         request.put("subject",email.getSubject());
         request.put("content",email.getContent());
@@ -59,10 +60,11 @@ public class OrderController {
         HttpHeaders headers=new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity=new HttpEntity<String>(request.toString(),headers);
-        ResponseEntity<String> emailResponse =restTemplate.exchange(url, HttpMethod.POST,entity,String.class);
-        return emailResponse.getBody();
+        ResponseEntity<String> emailResponse =restTemplate.exchange(url, HttpMethod.POST,entity,String.class);*/
+        System.out.println(orderDetails.getOrderNumber());
+        return orderDetails;
     }
-
+    @CrossOrigin("*")
     @GetMapping("/order/ordertest")
     public String test(){
         return "request received";
