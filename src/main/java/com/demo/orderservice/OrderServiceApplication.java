@@ -12,15 +12,14 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableFeignClients("com.demo.orderservice")
 @EnableDiscoveryClient
-
 public class OrderServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OrderServiceApplication.class, args);
 	}
-	@Bean
-	public RestTemplate restTemplate(RestTemplateBuilder builder) {
-		return builder.build();
-	}
+//	@Bean
+//	public RestTemplate restTemplate(RestTemplateBuilder builder) {
+//		return builder.build();
+//	}
 
 }
